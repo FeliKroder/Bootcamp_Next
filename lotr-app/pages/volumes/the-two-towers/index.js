@@ -39,9 +39,7 @@ export default function TheTwoTowers() {
         ))}
       </ul>
       <Image src={slug.cover} alt={slug.title} width="140" height="230" />
-      <div>
-        <p>{`Page ${currentPage} Content`}</p>
-      </div>{" "}
+      <p>{`Page ${currentPage} Content`}</p>
       <Pagination
         currentPage={currentPage}
         totalPages={totalPages}
