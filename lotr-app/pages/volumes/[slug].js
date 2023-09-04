@@ -7,13 +7,15 @@ import { useRouter } from "next/router.js";
 
 export default function TheFellowshipOfTheRing() {
   const router = useRouter();
-  const { slug } = router.query;
+  const { routerSlug } = router.query;
   console.log("Query:", router.query);
 
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = 3;
 
-  const currentVolume = volumes.find((volume) => volume.slug === slug);
+  const currentVolume = volumes.find(
+    (volume) => volume.routerSlug === routerSlug
+  );
 
   if (!currentVolume) {
     return null;
@@ -30,7 +32,7 @@ export default function TheFellowshipOfTheRing() {
   function handleNextClick() {
     if (currentPage < totalPages) {
       setCurrentPage(currentPage + 1);
-      router.push(`${slug}`);
+      router.push(`${routerSlug}`);
     }
   }
 
