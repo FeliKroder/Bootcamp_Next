@@ -6,13 +6,12 @@ import { useState } from "react";
 import { useRouter } from "next/router.js";
 
 export default function TheFellowshipOfTheRing() {
-  const slug = volumes.find(
-    (volume) => volume.slug === "the-fellowship-of-the-ring"
-  );
-
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = 3;
   const router = useRouter();
+  const { slug } = router.query;
+
+  const currentVolume = volumes.find((volume) => volume.slug === slug);
 
   function handlePreviousClick() {
     if (currentPage > 1) {
@@ -30,16 +29,21 @@ export default function TheFellowshipOfTheRing() {
   return (
     <>
       <Link href="/../../">All Volumes</Link>
-      <h1>{slug.title}</h1>
-      <p>{slug.description}</p>
+      <h1>{currentVolume.title}</h1>
+      <p>{currentVolume.description}</p>
       <ul>
-        {slug.books.map((book) => (
+        {currentVolume.books.map((book) => (
           <li key={book.ordinal}>
             {book.ordinal} - {book.title}
           </li>
         ))}
       </ul>
-      <Image src={slug.cover} alt={slug.title} width="140" height="230" />
+      <Image
+        src={currentVolume.cover}
+        alt={currentVolume.title}
+        width="140"
+        height="230"
+      />
       <p>{`Page ${currentPage} Content`}</p>
       <Pagination
         currentPage={currentPage}
