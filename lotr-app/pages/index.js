@@ -9,7 +9,7 @@ export default function HomePage() {
       <h2>All Volumes</h2>
       <ul>
         <li>
-          <Link href="/volumes/the-fellowship-of-the-ring">
+          <Link href={`/volumes/${volume.slug}`}>
             The Fellowship of the Ring
           </Link>
         </li>
