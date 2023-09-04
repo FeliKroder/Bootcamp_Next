@@ -1,40 +1,23 @@
-import { volumes } from "../../../lib/data.js";
-import Pagination from "@/components/pagination.jsx";
+import { volumes } from "../../lib/data.js";
 import Link from "next/link.js";
 import Image from "next/image.js";
-import { useState } from "react";
 import { useRouter } from "next/router.js";
 
-export default function TheFellowshipOfTheRing() {
+export default function Volumes() {
   const router = useRouter();
-  const { routerSlug } = router.query;
+  const { slug } = router.query;
   console.log("Query:", router.query);
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = 3;
-
-  const currentVolume = volumes.find(
-    (volume) => volume.routerSlug === routerSlug
-  );
+  const currentIndex = volumes.findIndex((volume) => volume.slug === slug);
+  const currentVolume = volumes[currentIndex];
+  const nextVolume = volumes[currentIndex + 1];
+  const previousVolume = volumes[currentIndex - 1];
 
   if (!currentVolume) {
     return null;
   }
 
   const { title, description, cover, books } = currentVolume;
-
-  function handlePreviousClick() {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-    }
-  }
-
-  function handleNextClick() {
-    if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
-      router.push(`${routerSlug}`);
-    }
-  }
 
   return (
     <>
@@ -49,13 +32,13 @@ export default function TheFellowshipOfTheRing() {
         ))}
       </ul>
       <Image src={cover} alt={title} width="140" height="230" />
-      <p>{`Page ${currentPage} Content`}</p>
-      <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPreviousClick={handlePreviousClick}
-        onNextClick={handleNextClick}
-      />
+      {/* conditional rendering */}
+      {previousVolume && (
+        <Link href={`/volumes/${previousVolume.slug}`}>Previous Volume</Link>
+      )}{" "}
+      {nextVolume && (
+        <Link href={`/volumes/${nextVolume.slug}`}>Next Volume</Link>
+      )}
     </>
   );
 }
